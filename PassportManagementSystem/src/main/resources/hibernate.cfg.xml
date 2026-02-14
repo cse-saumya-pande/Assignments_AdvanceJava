@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- 🔷 Database Driver -->
+        <property name="hibernate.connection.driver_class">
+            com.mysql.cj.jdbc.Driver
+        </property>
+
+        <!-- 🔷 Database URL -->
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3306/passportdb
+        </property>
+
+        <!-- 🔷 Database Username -->
+        <property name="hibernate.connection.username">
+            root
+        </property>
+
+        <!-- 🔷 Database Password -->
+        <property name="hibernate.connection.password">
+            Ritika@123
+        </property>
+
+        <!-- 🔷 SQL Dialect -->
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.MySQL8Dialect
+        </property>
+
+        <!-- 🔷 Auto Table Creation -->
+        <property name="hibernate.hbm2ddl.auto">
+            update
+        </property>
+
+        <!-- 🔷 Show SQL Queries -->
+        <property name="hibernate.show_sql">
+            true
+        </property>
+
+        <!-- 🔷 Format SQL -->
+        <property name="hibernate.format_sql">
+            true
+        </property>
+
+        <!-- 🔷 Entity Mapping -->
+        <mapping class="entity.Person"/>
+        <mapping class="entity.Passport"/>
+
+    </session-factory>
+
+</hibernate-configuration>
