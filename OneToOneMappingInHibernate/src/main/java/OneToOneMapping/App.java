@@ -23,7 +23,7 @@ public class App {
 
         // Step 5: Create Customer
         Customer customer = new Customer();
-        customer.setName("Ritika");
+        customer.setName("nox");
 
         // 🔗 Unidirectional Link (Only one side)
         customer.setAccount(account);
@@ -42,3 +42,4 @@ public class App {
         System.out.println("Data inserted successfully...");
     }
 }
+
