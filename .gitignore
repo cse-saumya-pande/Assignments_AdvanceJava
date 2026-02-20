@@ -34,8 +34,3 @@ release.properties
 .DS_Store
 Thumbs.db
 
-# =========================
-# Your Custom Folders
-# =========================
-blub/
-sping_core_demo/   # remove this line if this is your main project
