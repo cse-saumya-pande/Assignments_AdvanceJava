@@ -19,5 +19,4 @@ public class SpingCoreDemoApplication {
 //		System.out.println(vehicle);
 		vehicle.run();
 	}
-
 }
