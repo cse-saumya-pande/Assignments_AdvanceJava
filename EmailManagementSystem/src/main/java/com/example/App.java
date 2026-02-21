@@ -46,14 +46,14 @@ public class App {
             // Step 7: Commit Transaction
             em.getTransaction().commit();
 
-            System.out.println("✅ User saved successfully!");
+            System.out.println("User saved successfully!");
 
             // Step 8: Fetch User from DB
             User fetchedUser =
                     em.find(User.class, user.getUserId());
 
             // Step 9: Display Data
-            System.out.println("\n📌 User Details");
+            System.out.println("\nUser Details");
             System.out.println("User ID   : " + fetchedUser.getUserId());
             System.out.println("Username  : " + fetchedUser.getUsername());
 
@@ -70,3 +70,4 @@ public class App {
         }
     }
 }
+
