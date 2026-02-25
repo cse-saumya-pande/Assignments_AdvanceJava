@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Schema List</title>
+    <meta charset="UTF-8">
+</head> 	
+<body>
+
+<h2>Schema Records</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>City</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${employees}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.name}"></td>
+            <td th:text="${item.city}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
