@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.exception.InvalidRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Book;
 import com.example.demo.repository.BookRepository;
 
@@ -34,8 +36,9 @@ public class BookService {
 	//update
 	public Book updateBook(Book updatedBook, int id) {
 
-	    Book existingBook = bookRepository.findById(id)
-	            .orElseThrow(() -> new RuntimeException("Id not found: " + id));
+		Book existingBook = bookRepository.findById(id)
+	            .orElseThrow(() ->
+	                    new ResourceNotFoundException("Book not found with id: " + id));
 
 	    existingBook.setTitle(updatedBook.getTitle());
 	    existingBook.setAuthor(updatedBook.getAuthor());
@@ -108,7 +111,11 @@ public class BookService {
             int size,
             String sortBy,
             String sortDir) {
-
+    	
+    	if (page < 0 || size <= 0) {
+            throw new InvalidRequestException("Page must be >= 0 and size must be > 0");
+        }
+    	
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortBy).ascending() :
                 Sort.by(sortBy).descending();
@@ -123,7 +130,11 @@ public class BookService {
             int size,
             String sortBy,
             String sortDir) {
-
+    	
+    	if (page < 0 || size <= 0) {
+            throw new InvalidRequestException("Page must be >= 0 and size must be > 0");
+        }
+    	
         Sort sort = sortDir.equalsIgnoreCase("asc") ?
                 Sort.by(sortBy).ascending() :
                 Sort.by(sortBy).descending();
