@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,32 @@ public class BookService {
 	//add book 
 	public Book addBook(Book book) {
 		return bookRepository.save(book);
+	}
+	
+	//delete book
+	public void deleteBook(int id) {
+		if(!bookRepository.existsById(id)) {
+			throw new RuntimeException("Id not found by : " + id);
+		}
+		bookRepository.deleteById(id);
+	}
+	//update
+	public Book updateBook(Book updatedBook, int id) {
+
+	    Book existingBook = bookRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Id not found: " + id));
+
+	    existingBook.setTitle(updatedBook.getTitle());
+	    existingBook.setAuthor(updatedBook.getAuthor());
+	    existingBook.setGenre(updatedBook.getGenre());
+	    existingBook.setPrice(updatedBook.getPrice());
+	    existingBook.setPublishedDate(updatedBook.getPublishedDate());
+
+	    return bookRepository.save(existingBook);
+	}
+	
+	public List<Book> getAllBooks(){
+		return bookRepository.findAll();
 	}
 	
 	//find by author 
@@ -74,15 +103,37 @@ public class BookService {
         return bookRepository.findByGenreAndPriceLessThan(genre, price);
     }
 
-    public List<Book> getAllOrderByPublishedDateDesc() {
-        return bookRepository.findByOrderByPublishedDateDesc();
+    public Page<Book> getAllOrderByPublishedDateDesc(
+            int page,
+            int size,
+            String sortBy,
+            String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return bookRepository.findAll(pageable);
     }
 
-    public List<Book> getAllOrderByPriceAsc() {
-        return bookRepository.findByOrderByPriceAsc();
+    public Page<Book> getAllOrderByPriceAsc(
+            int page,
+            int size,
+            String sortBy,
+            String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("asc") ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        return bookRepository.findAll(pageable);
     }
 	
-	//sort by 
+	//sort by without pagination
 	public List<Book> getSortedBy(String field, String direction){
 		Sort sort = direction.equalsIgnoreCase("Asc") ?
 			Sort.by(field).ascending() : 

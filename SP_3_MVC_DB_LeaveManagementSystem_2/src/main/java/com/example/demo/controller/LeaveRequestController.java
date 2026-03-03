@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.model.Employee;
 import com.example.demo.model.LeaveRequest;
 import com.example.demo.model.LeaveType;
 import com.example.demo.service.EmployeeService;
@@ -28,8 +29,12 @@ public class LeaveRequestController {
     @GetMapping
     public String dashboard(Model model) {
 
+    	LeaveRequest leaveRequest = new LeaveRequest();
+        leaveRequest.setEmployee(new Employee());
+        leaveRequest.setLeaveType(new LeaveType());
+
         model.addAttribute("leaveType", new LeaveType());
-        model.addAttribute("leaveRequest", new LeaveRequest());
+        model.addAttribute("leaveRequest", leaveRequest);
         model.addAttribute("employees", employeeService.getAllEmployees());
         model.addAttribute("leaveTypes", leaveTypeService.getAllLeaveTypes());
         model.addAttribute("leaveRequests", leaveRequestService.getAllRequests());

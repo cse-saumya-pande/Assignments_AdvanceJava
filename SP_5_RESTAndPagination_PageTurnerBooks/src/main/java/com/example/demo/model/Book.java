@@ -22,7 +22,7 @@ public class Book {
 	
 	String title;
 	String author;
-	String genere;
+	String genre;
 	double price;
 	LocalDate publishedDate;
 }

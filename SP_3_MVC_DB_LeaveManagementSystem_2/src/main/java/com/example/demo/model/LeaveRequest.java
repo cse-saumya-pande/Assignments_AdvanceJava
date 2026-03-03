@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class LeaveRequest {
@@ -26,7 +27,10 @@ public class LeaveRequest {
     @JoinColumn(name = "leave_type_id")
     private LeaveType leaveType;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
     private String status;
 	public Long getRequestId() {

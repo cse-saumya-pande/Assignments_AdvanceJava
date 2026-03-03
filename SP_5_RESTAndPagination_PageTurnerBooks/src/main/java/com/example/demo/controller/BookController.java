@@ -5,21 +5,45 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Book;
 import com.example.demo.service.BookService;
 
-@Controller
+@RestController
 @RequestMapping("/api/books")
 public class BookController {
 	@Autowired
 	BookService bookService; 
+	
+	@PostMapping("/add")
+	public Book addBook(@RequestBody Book book) {
+		return bookService.addBook(book);
+	}
+	
+	@PostMapping("/edit/{id}")
+	public Book updateBook(@RequestBody Book book,@PathVariable int id ) {
+		return bookService.updateBook(book, id);
+	}
+	
+	@GetMapping("/delete/{id}")
+	public void deleteBook(@PathVariable int id) {
+		bookService.deleteBook(id);
+	}
+	
+	@GetMapping("/all")
+	public List<Book> getAllBooks() {
+		return bookService.getAllBooks();
+	}
 	
 	@GetMapping("/author/{author}")
 	public ResponseEntity<List<Book>> getByAuthor(@PathVariable String author){
@@ -72,13 +96,18 @@ public class BookController {
 	}
 	
 	@GetMapping("/latest")
-	public ResponseEntity<List<Book>> getByPublishedDateSorted(){
-		return ResponseEntity.ok(bookService.getSortedBy("publishedDate", "desc"));
+	public Page<Book> getByPublishedDateSorted( 
+			@RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "5") int size){
+		return bookService.getAllOrderByPublishedDateDesc(page, size, "publishedDate", "desc");
 	}
 	
 	@GetMapping("/by-price")
-	public ResponseEntity<List<Book>> getByPriceSorted(){
-		return ResponseEntity.ok(bookService.getSortedBy("price", "asc"));
+	public Page<Book> getByPriceSorted(
+			@RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "5") int size){
+		return bookService.getAllOrderByPriceAsc(page, size, "price", "asc");
 	}
+	
 	
 }

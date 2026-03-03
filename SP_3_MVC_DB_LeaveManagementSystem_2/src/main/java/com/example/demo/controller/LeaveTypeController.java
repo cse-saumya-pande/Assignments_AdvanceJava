@@ -31,6 +31,6 @@ public class LeaveTypeController {
     @PostMapping("/save")
     public String saveLeaveType(@ModelAttribute LeaveType leaveType) {
         leaveTypeService.addLeaveType(leaveType);
-        return "redirect:/dashboard";
+        return "redirect:/leave-requests";
     }
 }
