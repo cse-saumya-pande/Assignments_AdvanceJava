@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.exception.InvalidRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Book;
 import com.example.demo.repository.BookRepository;
