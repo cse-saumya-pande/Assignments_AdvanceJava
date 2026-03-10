@@ -6,13 +6,16 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Product;
 import com.example.demo.service.ProductService;
 
 
 
-@Controller
+@RestController
+@RequestMapping("/products")
 public class ProductController {
 
     private ProductService productService;
@@ -22,7 +25,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping
     public String showProducts(Model model) {
 
         List<Product> productList = productService.fetchProducts();

@@ -1,6 +1,9 @@
 package com.example.demo.service;
 
+
 import org.springframework.data.domain.Pageable;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +14,7 @@ import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.domain.Pageable; 
+import org.springframework.stereotype.Service;
 import com.example.demo.dto.EmployeeRequestDTO;
 import com.example.demo.dto.EmployeeResponseDTO;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -20,7 +23,9 @@ import com.example.demo.model.Department;
 import com.example.demo.model.Employee;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.EmployeeRepository;
-import jakarta.persistence.criteria.Predicate;
+import com.example.demo.specification.EmployeeSpecification;
+
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
 	private final EmployeeRepository employeeRepository;
 	private final DepartmentRepository departmentRepository;
@@ -49,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 //				.collect(Collectors.toList());
 //	}
 	
+	//normal method for custom search and filter
 	public Page<EmployeeResponseDTO> getAllEmployees(
 	        Integer departmentId,
 	        Double minSal,
@@ -81,7 +87,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	        return cb.and(predicates.toArray(new Predicate[0]));
 	    };
-
+	    
+	    
 	    Sort sort = dir.equalsIgnoreCase("ASC") ?
 	            Sort.by("salary").ascending() :
 	            Sort.by("salary").descending();
@@ -93,7 +100,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	    return employeePage.map(EmployeeMapper::toResponseDTO);
 	}
+	
+	
+	//dynamic queries using specifications 
+	public Page<Employee> searchEmployees(
+            String department,
+            Double minSalary,
+            Double maxSalary,
+            Pageable pageable) {
 
+		Specification<Employee> spec = (root, query, cb) -> cb.conjunction();
+
+        if (department != null) {
+            spec = spec.and(EmployeeSpecification.hasDepartment(department));
+        }
+
+        if (minSalary != null) {
+            spec = spec.and(EmployeeSpecification.salaryGreaterThanOrEqual(minSalary));
+        }
+
+        if (maxSalary != null) {
+            spec = spec.and(EmployeeSpecification.salaryLessThanOrEqual(maxSalary));
+        }
+
+        return employeeRepository.findAll(spec, pageable);
+    }
+	
 	public EmployeeResponseDTO getEmployeeById(Integer id) {
 		Employee employee = employeeRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Cannot find the employee by id : " + id));

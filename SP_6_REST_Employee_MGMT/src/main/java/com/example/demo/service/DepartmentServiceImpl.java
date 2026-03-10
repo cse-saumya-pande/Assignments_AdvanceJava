@@ -3,6 +3,8 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.dto.DepartmentRequestDTO;
 import com.example.demo.dto.DepartmentResponseDTO;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -11,6 +13,7 @@ import com.example.demo.model.Department;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.repository.EmployeeRepository;
 
+@Service
 public class DepartmentServiceImpl implements DepartmentService{
 	private final EmployeeRepository employeeRepository;
 	private final DepartmentRepository departmentRepository;
