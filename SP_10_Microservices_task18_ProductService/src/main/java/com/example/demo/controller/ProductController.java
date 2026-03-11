@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
-
+    @Value("${server.port}")
+    private String port;
+    
     @PostMapping
     public ResponseEntity<ProductResponseDTO> createProduct(
             @RequestBody ProductRequestDTO dto) {
@@ -35,13 +38,13 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-
+    	System.out.println("Response handled by port : " + port);
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
-
+    	System.out.println("Response handled by port : " + port);
         return ResponseEntity.ok(productService.getProductById(id));
     }
 

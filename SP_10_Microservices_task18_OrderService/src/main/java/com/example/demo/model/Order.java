@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.ws.rs.DefaultValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -29,6 +30,10 @@ public class Order {
 	
 	@CreationTimestamp
     private LocalDateTime orderPlacedOnDateAndTime;
+	private int quantity;
+    private double totalAmount = 0.0;
+    @Enumerated
+    private OrderStatus status;
     
     private Long restaurantId;
 
