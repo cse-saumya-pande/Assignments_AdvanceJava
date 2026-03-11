@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.feign.ProductClient;
 import com.example.demo.model.Order;
 import com.example.demo.model.ProductDTO;
 import com.example.demo.repository.OrderRepository;
