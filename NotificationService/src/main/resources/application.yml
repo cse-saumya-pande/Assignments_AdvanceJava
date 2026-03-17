@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: notification-service
+
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  cloud:
+    config:
+      fail-fast: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+server:
+  port: 8082
+
+app:
+  rabbit:
+    exchange: order-exchange
+    queue: notification-queue
+    routing-key: order.routing.key

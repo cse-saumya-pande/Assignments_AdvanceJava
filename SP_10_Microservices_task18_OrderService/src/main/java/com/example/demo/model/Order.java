@@ -32,6 +32,7 @@ public class Order {
     private LocalDateTime orderPlacedOnDateAndTime;
 	private int quantity;
     private double totalAmount = 0.0;
+    
     @Enumerated
     private OrderStatus status;
     
